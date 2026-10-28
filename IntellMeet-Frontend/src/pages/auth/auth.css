@@ -1,1 +1,130 @@
 .auth-page{min-height:100vh;display:grid;place-items:center;padding:28px;background:radial-gradient(circle at 20% 10%,#ece8ff 0,transparent 36%),#f7f8fc;color:#34354d}.auth-card{width:min(100%,440px);background:#fff;border:1px solid #e9e9f1;border-radius:18px;padding:30px;box-shadow:0 22px 70px #2c285014}.auth-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px}.auth-brand span{width:38px;height:38px;border-radius:11px;background:#7562e8;color:white;display:grid;place-items:center}.auth-brand b{font:800 20px Manrope,sans-serif}.auth-eyebrow{font-size:9px;letter-spacing:1.4px;color:#7562e8;font-weight:800}.auth-card h1{font:800 27px Manrope,sans-serif;margin:8px 0}.auth-copy{font-size:11px;line-height:1.7;color:#8b8ca0;margin-bottom:22px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#f4f3f9;border-radius:9px;padding:4px;margin-bottom:20px}.auth-tabs button{border:0;background:transparent;padding:9px;border-radius:7px;color:#8a8b9d;font-weight:700}.auth-tabs button.active{background:white;color:#6552d8;box-shadow:0 1px 4px #2221}.auth-card form{display:grid;gap:14px}.auth-card label{display:grid;gap:7px;font-size:10px;font-weight:700}.auth-card input{border:1px solid #e4e4ed;border-radius:9px;padding:12px;font:inherit;outline:none}.auth-card input:focus{border-color:#8a78ed;box-shadow:0 0 0 3px #7562e813}.auth-card small{font-size:9px;color:#999aad;line-height:1.5}.auth-error{padding:10px 12px;border-radius:8px;background:#fff1f1;color:#b44747;font-size:10px}.auth-submit{border:0;border-radius:9px;background:#7562e8;color:white;padding:12px;font-weight:800;cursor:pointer}.auth-submit:disabled{opacity:.6;cursor:wait}.auth-loading{min-height:100vh;display:grid;place-items:center;background:#f7f8fc;color:#77788f;font-size:12px}
+
+.auth-role-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-role-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-role-icon {
+  position: absolute;
+  left: 13px;
+  display: flex;
+  align-items: center;
+  color: var(--accent, #168f83);
+  pointer-events: none;
+}
+
+.auth-role-select {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 42px;
+  border: 1px solid var(--border, #d8e1e5);
+  border-radius: 10px;
+  background: var(--surface, #ffffff);
+  color: var(--text-primary, #24343d);
+  font: inherit;
+  font-size: 14px;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-role-select:focus {
+  outline: none;
+  border-color: var(--accent, #168f83);
+  box-shadow: 0 0 0 3px rgba(22, 143, 131, 0.12);
+}
+
+.auth-role-chevron {
+  position: absolute;
+  right: 13px;
+  color: var(--text-secondary, #667781);
+  pointer-events: none;
+}
+
+.auth-role-help {
+  display: block;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-secondary, #667781);
+}
+
+.auth-password-hint {
+  display: block;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.auth-switch-hint {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.auth-switch-hint button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent, #168f83);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-switch-hint button:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+.auth-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-password-wrap input {
+  width: 100%;
+  padding-right: 48px;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary, #667781);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.auth-password-toggle:hover {
+  color: var(--accent, #168f83);
+  background: rgba(22, 143, 131, 0.08);
+}
+
+.auth-password-toggle:focus-visible {
+  outline: 2px solid var(--accent, #168f83);
+  outline-offset: 2px;
+}

@@ -1,6 +1,8 @@
+
 import {
   loginUser,
   loginWithGoogle,
+  registerAdminUser,
   registerUser,
   revokeAllUserSessions,
   revokeRefreshToken,
@@ -27,6 +29,15 @@ function publicAuthResult(result) {
 export async function register(req, res, next) {
   try {
     const result = await registerUser(req.body, requestMeta(req));
+    setRefreshCookie(res, result.refreshToken);
+    res.status(201).json({ success: true, data: publicAuthResult(result) });
+  } catch (error) {
+    next(error);
+  }
+}
+export async function registerAdmin(req, res, next) {
+  try {
+    const result = await registerAdminUser(req.body, requestMeta(req));
     setRefreshCookie(res, result.refreshToken);
     res.status(201).json({ success: true, data: publicAuthResult(result) });
   } catch (error) {

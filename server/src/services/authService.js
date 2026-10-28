@@ -4,6 +4,9 @@ import { AuthSession } from "../models/AuthSession.js";
 import { User } from "../models/User.js";
 import { getRefreshExpiryDate } from "../config/auth.js";
 import { HttpError } from "../utils/httpError.js";
+import { timingSafeEqual } from "node:crypto";
+
+
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../utils/tokens.js";
 
 const PASSWORD_ROUNDS = 12;
@@ -50,7 +53,47 @@ export async function registerUser({ name, email, password }, meta) {
 
   return issueSessionTokens(user, meta);
 }
+export async function registerAdminUser(
+  { name, email, password, inviteCode },
+  meta
+) {
+  const configuredCode = process.env.ADMIN_INVITE_CODE;
 
+  if (!configuredCode || typeof inviteCode !== "string") {
+    throw new HttpError(403, "Valid admin invitation code is required");
+  }
+
+  const provided = Buffer.from(inviteCode);
+  const expected = Buffer.from(configuredCode);
+
+  if (
+    provided.length !== expected.length ||
+    // !bcrypt.timingSafeEqual(provided, expected)
+    // !timingSafeEqual(provided, expected)
+    !timingSafeEqual(provided, expected)
+  ) {
+    throw new HttpError(403, "Valid admin invitation code is required");
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const existing = await User.exists({ email: normalizedEmail });
+
+  if (existing) {
+    throw new HttpError(409, "Unable to create account with those credentials");
+  }
+
+  const passwordHash = await bcrypt.hash(password, PASSWORD_ROUNDS);
+
+  const user = await User.create({
+    name: name.trim(),
+    email: normalizedEmail,
+    passwordHash,
+    role: "ADMIN",
+    authProvider: "LOCAL",
+  });
+
+  return issueSessionTokens(user, meta);
+}
 export async function loginUser({ email, password }, meta) {
   const normalizedEmail = email.trim().toLowerCase();
   const user = await User.findOne({ email: normalizedEmail }).select("+passwordHash");
