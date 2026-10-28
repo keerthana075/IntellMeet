@@ -1,0 +1,8 @@
+import { Plus, MoreHorizontal, MessageSquare } from 'lucide-react'
+import Avatar from '../../components/common/Avatar'
+import Badge from '../../components/common/Badge'
+import { people } from '../../data/initialData'
+
+export default function TeamPage({ onToast }:{onToast:(s:string)=>void}) {
+  return <><div className="team-summary"><div className="team-summary-left"><div className="team-avatars"><Avatar initials="AM"/><Avatar initials="JL" color="mint"/><Avatar initials="SK" color="peach"/><Avatar initials="RK" color="blue"/></div><div><b>4 teammates</b><p>Working together at Northstar Studio</p></div></div><button className="button button-primary" onClick={()=>onToast('Invite link copied to clipboard')}><Plus size={16}/> Invite member</button></div><div className="team-grid">{people.map(p=><div className="panel team-card" key={p.name}><div className="team-card-menu"><button className="icon-button" onClick={()=>onToast(`Options for ${p.name}`)}><MoreHorizontal size={18}/></button></div><div className="team-avatar-large"><Avatar initials={p.initials} color={p.color}/><span className={`online-indicator ${p.online?'online':''}`}/></div><h3>{p.name}</h3><p>{p.role}</p><Badge tone={p.online?'green':'neutral'}>{p.online?'Online':'Away'}</Badge><div className="team-card-stats"><div><b>{p.name==='Alex Morgan'?'18':p.name==='Jordan Lee'?'24':'12'}</b><small>Meetings</small></div><div><b>{p.name==='Sam Kim'?'9':'14'}</b><small>Tasks</small></div></div><button className="button button-secondary full-button" onClick={()=>onToast(`Opening chat with ${p.name}`)}><MessageSquare size={15}/> Message</button></div>)}</div></>
+}

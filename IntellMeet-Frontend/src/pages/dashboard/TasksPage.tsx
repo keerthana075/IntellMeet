@@ -1,0 +1,11 @@
+import { useState } from 'react'
+import { ClipboardList, CheckCheck, Clock3, Check, Sparkles } from 'lucide-react'
+import Avatar from '../../components/common/Avatar'
+import Badge from '../../components/common/Badge'
+import { tasks } from '../../data/initialData'
+
+export default function TasksPage({ completed, setCompleted }: { completed:string[]; setCompleted:(s:string[])=>void }) {
+  const [filter, setFilter] = useState('All tasks')
+  const all = tasks.filter(t => t.title.toLowerCase().includes('') && (filter==='All tasks'||(filter==='Completed'?completed.includes(t.title):!completed.includes(t.title))))
+  return <><div className="task-summary-grid"><div className="task-summary"><span className="stat-icon purple"><ClipboardList size={18}/></span><div><b>{tasks.length-completed.length}</b><small>Open tasks</small></div></div><div className="task-summary"><span className="stat-icon green"><CheckCheck size={18}/></span><div><b>{completed.length}</b><small>Completed</small></div></div><div className="task-summary"><span className="stat-icon orange"><Clock3 size={18}/></span><div><b>2</b><small>Due today</small></div></div></div><section className="panel tasks-panel"><div className="panel-heading"><div><h3>Action items</h3><p>Tasks collected from your meetings</p></div><div className="segmented">{['All tasks','Open','Completed'].map(f=><button key={f} className={filter===f?'selected':''} onClick={()=>setFilter(f==='Open'?'Open':f)}>{f}</button>)}</div></div><div className="task-table"><div className="task-table-head"><span>Task</span><span>Assignee</span><span>Due date</span><span>Status</span></div>{all.map(t=>{const done=completed.includes(t.title);return <div className="task-table-row" key={t.title}><button className={`task-check ${done?'checked':''}`} onClick={()=>setCompleted(done?completed.filter(x=>x!==t.title):[...completed,t.title])}>{done&&<Check size={13}/>}</button><div className={`task-name ${done?'done':''}`}><b>{t.title}</b><small><Sparkles size={12}/> From meeting notes</small></div><div className="task-assignee"><Avatar initials={t.owner.split(' ').map(x=>x[0]).join('')} color={t.tone} small/><span>{t.owner}</span></div><span className="due-date">{t.due}</span><Badge tone={done?'green':t.status==='In progress'?'violet':'neutral'}>{done?'Done':t.status}</Badge></div>})}</div></section></>
+}
